@@ -113,6 +113,42 @@ function kid_civicrm_post($op, $objectName, $objectId, &$objectRef) {
 					
 					kid_insert($kid_number, $contact_id, $objectId, $objectName);
                 }
+                /*
+                 * BOS1403431 Contributions that are part of a Memberships with AvtaleGiro need 15 digit KID too\
+                 * Erik Hommel (CiviCooP) <erik.hommel@civicoop.org> 12 Mar 2014
+                 */
+                try {
+                    $membershipFinTypeId = civicrm_api3('FinancialType', 'Getsingle', array('name'=>"Medlem"));
+                } catch (CiviCRM_API3_Exception $e) {
+                    CRM_Core_Error::fatal(ts("Could not find a valid financial type for Medlem, 
+                        error from API entity FinancialType, action Getsingle is : ".$e->getMessage()));
+                }
+                $optionGroupParams = array(
+                    'name'      =>  "payment_instrument",
+                    'return'    =>  "id"
+                );
+                try {
+                    $optionGroupId = civicrm_api3('OptionGroup', 'Getvalue', $optionGroupParams);
+                } catch (CiviCRM_API3_Exception $e) {
+                    CRM_Core_Error::fatal(ts("Could not find a valid option group for payment_instrument, 
+                        error from API entity OptionGroup, action Getvalue is : ".$e->getMessage()));
+                }
+                $avtaleGiroParams = array(
+                    'option_group_id'   =>  $optionGroupId,
+                    'name'              =>  "AvtaleGiro",
+                    'return'            =>  "value"
+                );
+                try {
+                    $avtaleGiroId = civicrm_api3('OptionValue', 'Getvalue', $avtaleGiroParams);
+                } catch (CiviCRM_API3_Exception $e) {
+                    CRM_Core_Error::fatal(ts("Could not find a valid option value for payment instrument AvtaleGiro, 
+                        error from API entity OptionValue, action Getvalue is : ".$e->getMessage()));
+                }
+                if ($objectRef->financial_type_id == $membershipFinTypeId && $objectRef->payment_instrument_id == $avtaleGiroId) {
+                    $contact_id = $objectRef->contact_id;
+                    $kid_number = kid_number_generate_15digit($contact_id, $objectId);
+                }
+                // end BOS1403431
                 break;
             
             // this is no longer required, as per irc conversation with Steinar, 15/10/2013
