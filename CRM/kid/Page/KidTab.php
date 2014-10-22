@@ -71,6 +71,8 @@ class CRM_kid_Page_KidTab extends CRM_Core_Page_Basic {
       $createDate = new DateTime($object->create_date);
       $setting['create_date'] = $createDate->format('d-m-Y');
       $setting['created_by_token'] = $object->created_by_token ? ts('Yes') : ts('No');
+      $setting['earmarking'] = $object->earmarking;
+      $setting['aksjon_id'] = $object->aksjon_id;
       $rows[] = $setting;
     }
     $this->assign('rows', $rows);

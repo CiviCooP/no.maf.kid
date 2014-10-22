@@ -19,7 +19,9 @@ class CRM_kid_Upgrader extends CRM_kid_Upgrader_Base {
           `contact_id` int(10) unsigned NOT NULL,
           `kid_number` varchar(32) NOT NULL,
           `create_date` DATETIME NOT NULL,
-          `created_by_token` int(1) NOT NULL default '0'
+          `created_by_token` int(1) NOT NULL default '0',
+          `earmarking` varchar(128) NOT NULL default '',
+          `aksjon_id` varchar(128) NOT NULL default '',
           PRIMARY KEY (`id`),
           UNIQUE KEY `index_kid_number` (`kid_number`),
           KEY `index_contact_id` (`contact_id`)
@@ -101,6 +103,13 @@ class CRM_kid_Upgrader extends CRM_kid_Upgrader_Base {
     //CRM_Core_DAO::executeQuery("ALTER TABLE civicrm_kid_number DROP PRIMARY KEY");
     //CRM_Core_DAO::executeQuery("ALTER TABLE civicrm_kid_number MODIFY `id` NOT NULL PRIMARY KEY");
     return TRUE;
+  }
+  
+  public function upgrade_1003() {
+    CRM_Core_DAO::executeQuery("ALTER TABLE civicrm_kid_number ADD (
+        `earmarking` varchar(128) NOT NULL default '',
+        `aksjon_id` varchar(128) NOT NULL default '')");
+    return true;
   }
 
 

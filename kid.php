@@ -12,6 +12,13 @@ require_once('kid.civix.php');
 
 define('NO_MAF_MAILING_ACTIVITY_NAME', 'Direct Mail (with KID)');
 
+function kid_civicrm_buildForm($formName, &$form) {
+  if ($formName == 'CRM_Contact_Form_Task_PDF') {
+    $buildForm = new CRM_kid_Buildform_Pdf($form);
+    $buildForm->parse();
+  }
+}
+
 /*
  * Implementation of hook_civicrm_post
  */
@@ -157,10 +164,19 @@ function _kid_9kid_token(&$values, $cids, $job = null, $tokens = array(), $conte
   if (count($contacts) == 0) {
     return;
   }
+  
+  $earmarking = '';
+  $aksjon_id = '';
+  if (isset($_POST['earmarking']) && !empty($_POST['earmarking'])) {
+    $earmarking = $_POST['earmarking'];
+  }
+  if (isset($_POST['aksjon_id']) && !empty($_POST['aksjon_id'])) {
+    $aksjon_id = $_POST['aksjon_id'];
+  }
  
   $activityToken = CRM_kid_Post_TokenActivity::singleton();
   foreach($contacts as $cid) {
-    $kid_number = CRM_kid_Kid9::getTokenValue($cid);
+    $kid_number = CRM_kid_Kid9::getTokenValue($cid, $earmarking, $aksjon_id);
     $activityToken->addKidNumber($kid_number, $cid);
     if (!$use_array) {
       $values['kid.9KID'] = $kid_number;
