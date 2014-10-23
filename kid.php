@@ -92,7 +92,9 @@ function kid_number_get_info($kid_number) {
         return array(
             'entity'     => $dao->entity,
             'entity_id'  => $dao->entity_id,
-            'contact_id' => $dao->contact_id
+            'contact_id' => $dao->contact_id,
+            'aksjon_id'  => $dao->aksjon_id,
+            'earmarking' => $dao->earmarking,
         );
     return false;
 
