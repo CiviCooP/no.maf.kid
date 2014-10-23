@@ -60,6 +60,7 @@ class CRM_kid_Page_KidTab extends CRM_Core_Page_Basic {
    * @static
    */
   function browse($action = NULL) {    
+    $earmakring_options = CRM_Core_BAO_OptionValue::getOptionValuesAssocArrayFromName('earmarking');
     $object = CRM_kid_BAO_Kid::findByContactId($this->contactId);
     
     $rows = array();
@@ -71,7 +72,7 @@ class CRM_kid_Page_KidTab extends CRM_Core_Page_Basic {
       $createDate = new DateTime($object->create_date);
       $setting['create_date'] = $createDate->format('d-m-Y');
       $setting['created_by_token'] = $object->created_by_token ? ts('Yes') : ts('No');
-      $setting['earmarking'] = $object->earmarking;
+      $setting['earmarking'] = isset($earmakring_options[$object->earmarking]) ? $earmakring_options[$object->earmarking] : $object->earmarking;
       $setting['aksjon_id'] = $object->aksjon_id;
       $rows[] = $setting;
     }
