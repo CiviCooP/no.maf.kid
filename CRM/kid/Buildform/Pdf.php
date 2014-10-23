@@ -8,8 +8,10 @@ class CRM_kid_Buildform_Pdf {
     $this->form = $form;
   }
   
-  public function parse() {    
-    $this->form->add('text', 'earmarking', ts('Earmarking'));
+  public function parse() { 
+    $earmakring_options = CRM_Core_BAO_OptionValue::getOptionValuesAssocArrayFromName('earmarking');
+    
+    $this->form->add('select', 'earmarking', ts('Earmarking'), $earmakring_options);
     $this->form->add('text', 'aksjon_id', ts('Aksjon ID'));
     
     $snippet['template'] = 'CRM/kid/Buildform/Pdf.tpl';
