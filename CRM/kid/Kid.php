@@ -26,16 +26,18 @@ abstract class CRM_kid_Kid {
     return $check_digit;
   }
 
-  public static function insert($kid_number, $contact_id, $objectId, $objectName) {
+  public static function insert($kid_number, $contact_id, $objectId, $objectName, $aksjon_id='', $earmarking='') {
     if (isset($kid_number) and isset($contact_id)) {
       CRM_Core_DAO::executeQuery("
-			INSERT INTO civicrm_kid_number (entity, entity_id, contact_id, kid_number, create_date, created_by_token)
-			VALUES (%1, %2, %3, %4, CURDATE(), '0')
+			INSERT INTO civicrm_kid_number (entity, entity_id, contact_id, kid_number, create_date, created_by_token, earmarking, aksjon_id)
+			VALUES (%1, %2, %3, %4, CURDATE(), '0', %5, %6)
             ", array(
         1 => array($objectName, 'String'),
         2 => array($objectId, 'Positive'),
         3 => array($contact_id, 'Positive'),
-        4 => array($kid_number, 'String')
+        4 => array($kid_number, 'String'),
+        5 => array($earmarking, 'String'),
+        6 => array($aksjon_id, 'String'),
           )
       );
     }

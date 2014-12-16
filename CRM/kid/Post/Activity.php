@@ -27,7 +27,19 @@ class CRM_kid_Post_Activity {
         $contact_id = $dao->target_contact_id;
         $kid = new CRM_kid_Kid9();
         $kid_number = $kid->generate();
-        CRM_kid_Kid::insert($kid_number, $contact_id, $objectId, 'ActivityTarget');
+        
+        $aksjon_id = '';
+        $earmarking = '';
+        
+        // lookup aksjon_id from the activity, if it exists
+        if (empty($aksjon_id) && !empty($objectId)) {
+          $aksjon_id = CRM_Core_DAO::singleValueQuery("SELECT aksjon_id_38 FROM civicrm_value_maf_norway_aksjon_import_1578 WHERE entity_id = %1", array(1 => array($objectId, 'Positive')));
+        }
+        if (empty($earmarking) && !empty($objectId)) {
+          $earmarking = CRM_Core_DAO::singleValueQuery("SELECT _remerking_98 FROM civicrm_value_kid_earmark_1591 WHERE entity_id = %1", array(1 => array($objectId, 'Positive')));
+        }
+        
+        CRM_kid_Kid::insert($kid_number, $contact_id, $objectId, 'ActivityTarget', $aksjon_id, $earmarking);
       }
     }
   }
