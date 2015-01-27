@@ -142,6 +142,24 @@ function kid_number_validate($number) {
     return ($sum % 10 == 0); 
 }
 
+/**
+ * Use the alterAPIPermissions hook to set the aksjon ID and Earmarking 
+ * for 9KID generation in a token.
+ * 
+ * @param type $entity
+ * @param type $action
+ * @param type $params
+ * @param type $permissions
+ */
+function kid_civicrm_alterAPIPermissions($entity, $action, &$params, &$permissions) {
+  if (isset($params['earmarking']) && !empty($params['earmarking'])) {
+    CRM_kid_Earmarking::setEarmarking($params['earmarking']);
+  }
+  if (isset($params['aksjon_id']) && !empty($params['aksjon_id'])) {
+    CRM_kid_AksjonId::setAksjonId($params['aksjon_id']);
+  }
+}
+
 function kid_civicrm_tokens(&$tokens) {
   $tokens['kid'] = array(
     'kid.9KID' => '9-digit KID Number',
@@ -167,14 +185,14 @@ function _kid_9kid_token(&$values, $cids, $job = null, $tokens = array(), $conte
     return;
   }
   
-  $earmarking = '';
-  $aksjon_id = '';
-  if (isset($_POST['earmarking']) && !empty($_POST['earmarking'])) {
+  $earmarking = CRM_kid_Earmarking::getEarmarking();
+  $aksjon_id = CRM_kid_AksjonId::getAksjonId();
+  /*if (isset($_POST['earmarking']) && !empty($_POST['earmarking'])) {
     $earmarking = $_POST['earmarking'];
   }
   if (isset($_POST['aksjon_id']) && !empty($_POST['aksjon_id'])) {
     $aksjon_id = $_POST['aksjon_id'];
-  }
+  }*/
  
   $activityToken = CRM_kid_Post_TokenActivity::singleton();
   foreach($contacts as $cid) {
