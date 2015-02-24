@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
- <extension key="no.maf.module.kid" type="module">
+ <extension key="no.maf.kid" type="module">
   <downloadUrl>http://www.circle-interactive.co.uk/sites/circle-interactive.co.uk/files/civicrm_extensions/no.maf.kid.zip</downloadUrl>
   <file>kid</file>
   <name>MAF KID Number</name>
@@ -22,4 +22,7 @@
     <ver>4.3</ver>
   </compatibility>
   <comments>For support, please contact project team on the forums. (http://forum.civicrm.org)</comments>
+  <civix>
+    <namespace>CRM/kid</namespace>
+  </civix>
 </extension>

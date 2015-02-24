@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<menu>
+  <item>
+    <path>civicrm/contact/kidtab</path>
+    <page_callback>CRM_kid_Page_KidTab</page_callback>
+    <title>KidTab</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
+</menu>
