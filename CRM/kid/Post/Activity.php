@@ -18,13 +18,14 @@ class CRM_kid_Post_Activity {
       // lookup target_contact_id for this activity 
       // (does not support multiple targets, will default to the first returned)
       $dao = CRM_Core_DAO::executeQuery("
-                        SELECT id, target_contact_id FROM civicrm_activity_target WHERE activity_id = %1
+                        SELECT id, contact_id FROM civicrm_activity_contact WHERE activity_id = %1 and record_type_id = %2
                     ", array(
-            1 => array($objectId, 'Positive')
+            1 => array($objectId, 'Positive'),
+            2 => array(3, 'Positive'), //3 = target contact of activity
               )
       );
       while ($dao->fetch()) {
-        $contact_id = $dao->target_contact_id;
+        $contact_id = $dao->contact_id;
         $kid = new CRM_kid_Kid9();
         $kid_number = $kid->generate();
         
