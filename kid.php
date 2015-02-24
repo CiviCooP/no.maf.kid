@@ -88,16 +88,17 @@ function kid_civicrm_post($op, $objectName, $objectId, &$objectRef) {
                 // If an activity of type 'Direct Mailing'
                 if ($objectRef->activity_type_id == kid_get_mailing_activity_type_id()) {
 
-                    // lookup target_contact_id for this activity 
+                    // lookup contact_id for this activity
                     // (does not support multiple targets, will default to the first returned)
                     $dao = CRM_Core_DAO::executeQuery("
-                        SELECT id, target_contact_id FROM civicrm_activity_target WHERE activity_id = %1
+                        SELECT id, contact_id FROM civicrm_activity_contact WHERE activity_id = %1 AND record_type_id = %2
                     ", array(
-                          1 => array($objectId, 'Positive')
+                          1 => array($objectId, 'Positive'),
+                          2 => array(3, 'Positive')
                        )
                     );
                     while ($dao->fetch()) {
-                        $contact_id = $dao->target_contact_id;
+                        $contact_id = $dao->contact_id;
                         $kid_number = kid_number_generate_9digit($dao->id);
 						kid_insert($kid_number, $contact_id, $objectId, 'ActivityTarget');
                     }
