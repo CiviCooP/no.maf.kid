@@ -16,10 +16,10 @@ class CRM_kid_Post_SetContributionEarmarkingAndAksjonId {
     if (empty($params['custom'][$config->getAksjonIdFieldParameter('id')]) && !empty($aksjonId)) {
       $customValue = $config->getAksjonIdField();
       $customValue['value'] = $aksjonId;
+      $customValue['type'] = $customValue['data_type'];
       $customValue['custom_field_id'] = $customValue['id'];
       unset($customValue['id']);
       unset($customValue['data_type']);
-      $customValue['type'] = $customValue['data_type'];
       $customValue['table_name'] = $config->getCustomGroup('table_name');
       $params['custom'][$config->getAksjonIdFieldParameter('id')][] = $customValue;
     }
