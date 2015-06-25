@@ -13,11 +13,17 @@ class CRM_kid_Post_SetContributionEarmarkingAndAksjonId {
     $config = CRM_kid_Config_NetsTransactions::singleton();
     $aksjonId = CRM_kid_AksjonId::getAksjonId() ? CRM_kid_AksjonId::getAksjonId() : false;
     $earmarking = CRM_kid_Earmarking::getEarmarking() ? CRM_kid_Earmarking::getEarmarking() : false;
-    if (empty($params['custom_'.$config->getAksjonIdField()]) && !empty($aksjonId)) {
-      $params['custom_'.$config->getAksjonIdField()] = $aksjonId;
+    if (empty($params['custom'][$config->getAksjonIdFieldParameter('id')]) && !empty($aksjonId)) {
+      $customValue = $config->getAksjonIdField();
+      $customValue['value'] = $aksjonId;
+      $customValue['table_name'] = $config->getCustomGroup('table_name');
+      $params['custom'][$config->getAksjonIdFieldParameter('id')][] = $customValue;
     }
-    if (empty($params['custom_'.$config->getEarmarkingField()]) && !empty($earmarking)) {
-      $params['custom_'.$config->getEarmarkingField()] = $earmarking;
+    if (empty($params['custom'][$config->getEarmarkingFieldParameter()]) && !empty($earmarking)) {
+      $customValue = $config->getEarmarkingField();
+      $customValue['value'] = $earmarking;
+      $customValue['table_name'] = $config->getCustomGroup('table_name');
+      $params['custom_'.$config->getEarmarkingFieldParameter('id')][] = $customValue;
     }
   }
 

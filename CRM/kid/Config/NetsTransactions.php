@@ -23,12 +23,20 @@ class CRM_kid_Config_NetsTransactions {
     return self::$singleton;
   }
 
-  public function getAksjonIdField($key='id') {
+  public function getAksjonIdFieldParameter($key='id') {
     return $this->aksjon_id_field[$key];
   }
 
-  public function getEarmarkingField($key='id') {
+  public function getEarmarkingFieldParameter($key='id') {
     return $this->earmarking_field[$key];
+  }
+
+  public function getAksjonIdField() {
+    return $this->aksjon_id_field;
+  }
+
+  public function getEarmarkingField() {
+    return $this->earmarking_field;
   }
 
   public function getCustomGroup($key='id') {
