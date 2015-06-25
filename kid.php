@@ -23,6 +23,9 @@ function kid_civicrm_buildForm($formName, &$form) {
  * Implementation of hook_civicrm_post
  */
 function kid_civicrm_post($op, $objectName, $objectId, &$objectRef) {
+  //set earmarking and aksjon id on contribution
+  CRM_kid_Post_SetContributionEarmarkingAndAksjonId::post($op, $objectName, $objectId, $objectRef);
+
   if ($objectName == 'Activity' && $op == 'create') {
     //save entities at created tokens
     $activityToken = CRM_kid_Post_TokenActivity::singleton();
