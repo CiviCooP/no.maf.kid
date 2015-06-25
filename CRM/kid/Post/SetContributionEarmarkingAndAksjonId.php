@@ -31,7 +31,7 @@ class CRM_kid_Post_SetContributionEarmarkingAndAksjonId {
       unset($customValue['id']);
       unset($customValue['data_type']);
       $customValue['table_name'] = $config->getCustomGroup('table_name');
-      $params['custom_'.$config->getEarmarkingFieldParameter('id')][] = $customValue;
+      $params['custom'][$config->getEarmarkingFieldParameter('id')][] = $customValue;
     }
   }
 
