@@ -8,7 +8,7 @@
   </item>
   <item>
     <path>civicrm/civirules/actions/kid_pdfapi</path>
-    <page_callback>CRM_lid_Form_CivirulesAction_form_PdfKid</page_callback>
+    <page_callback>CRM_lid_Form_CivirulesAction_Form_PdfKid</page_callback>
     <title>CivirulesAction</title>
     <access_arguments>access CiviCRM</access_arguments>
   </item>
