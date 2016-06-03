@@ -70,8 +70,8 @@ class CRM_kid_CivirulesAction_Form_PdfKid extends CRM_Core_Form {
 
     $earmakring_options = CRM_Core_BAO_OptionValue::getOptionValuesAssocArrayFromName('earmarking');
 
-    $this->form->add('select', 'earmarking', ts('Earmarking'), $earmakring_options);
-    $this->form->add('text', 'aksjon_id', ts('Aksjon ID'));
+    $this->add('select', 'earmarking', ts('Earmarking'), $earmakring_options);
+    $this->add('text', 'aksjon_id', ts('Aksjon ID'));
 
     $this->addButtons(array(
       array('type' => 'next', 'name' => ts('Save'), 'isDefault' => TRUE,),
