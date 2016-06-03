@@ -181,6 +181,35 @@ function kid_civicrm_tokenValues(&$values, $cids, $job = null, $tokens = array()
   }
 }
 
+/**
+ * Function for CiviRules, check if CiviRules is installed
+ *
+ * @return bool
+ */
+function _kid_is_civirules_and_pdfapi_installed() {
+  $rulesInstalled = FALSE;
+  $pdfApiInstalled = FALSE;
+  try {
+    $extensions = civicrm_api3('Extension', 'get');
+    foreach($extensions['values'] as $ext) {
+      if ($ext['key'] == 'org.civicoop.civirules' &&$ext['status'] == 'installed') {
+        $rulesInstalled = TRUE;
+      }
+      if ($ext['key'] == 'org.civicoop.pdfapi' &&$ext['status'] == 'installed') {
+        $pdfApiInstalled = TRUE;
+      }
+    }
+  } catch (Exception $e) {
+    return false;
+  }
+
+  if ($pdfApiInstalled  && $rulesInstalled) {
+    return true;
+  }
+
+  return false;
+}
+
 function _kid_9kid_token(&$values, $cids, $job = null, $tokens = array(), $context = null) {
   $contacts = $cids;
   $use_array = true;
