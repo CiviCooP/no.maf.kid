@@ -5,6 +5,8 @@
  */
 
 class CRM_kid_Kid9 extends CRM_kid_Kid {
+
+  protected static $kid9 = array();
   
   public function generate() {
     $sql = "SELECT MAX(kid_number) as kid_number FROM `civicrm_kid_number` WHERE length(kid_number) = 9";
@@ -20,10 +22,15 @@ class CRM_kid_Kid9 extends CRM_kid_Kid {
   }
   
   public static function getTokenValue($contact_id, $earmarking='', $aksjon_id='') {
-    $kid = new CRM_kid_Kid9();
-    $kid_number = $kid->generate();
-    self::savenTokenValue($kid_number, $contact_id, $earmarking, $aksjon_id);
-    return $kid_number;
+    $e = (!empty($earmarking) ? $earmarking : 0);
+    $a = (!empty($aksjon_id) ? $aksjon_id : 0);
+    if (empty(self::$kid9[$contact_id]) || empty(self::$kid9[$contact_id][$a]) || empty(self::$kid9[$contact_id][$a][$e])) {
+      $kid = new CRM_kid_Kid9();
+      $kid_number = $kid->generate();
+      self::savenTokenValue($kid_number, $contact_id, $earmarking, $aksjon_id);
+      self::$kid9[$contact_id][$a][$e] = $kid_number;
+    }
+    return self::$kid9[$contact_id][$a][$e];
   }
   
   protected static function savenTokenValue($kid_number, $contact_id, $earmarking='', $aksjon_id='') {
