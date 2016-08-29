@@ -15,8 +15,8 @@
     <author>Andrew Walker - Circle Interactive</author>
     <email>andyw@circle-interactive.co.uk</email>
   </maintainer>
-  <releaseDate>2013-06-06</releaseDate>
-  <version>2.1</version>
+  <releaseDate>2016-08-29</releaseDate>
+  <version>2.2</version>
   <develStage>stable</develStage>
   <compatibility>
     <ver>4.4</ver>
