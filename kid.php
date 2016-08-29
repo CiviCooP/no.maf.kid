@@ -35,6 +35,22 @@ function kid_civicrm_post($op, $objectName, $objectId, &$objectRef) {
     $activityToken = CRM_kid_Post_TokenActivity::singleton();
     $activityToken->post($op, $objectName, $objectId, $objectRef);
   }
+
+  if ($op == 'create' && in_array($objectName, array('Individual', 'Household', 'Organization'))) {
+    // Set default KID base number to contact ID
+    //Retrieve base number for contact
+    $params = array(
+      1 => array($objectId, 'Integer')
+    );
+    $dao = CRM_Core_DAO::executeQuery("SELECT id, kid_base FROM civicrm_value_kid_base WHERE entity_id = %1", $params);
+    if ($dao->fetch()) {
+      if (empty($dao->kid_base)) {
+        CRM_Core_DAO::executeQuery("UPDATE civicrm_value_kid_base SET kid_base = %1 WHERE entity_id = %1", $params);
+      }
+    } else {
+      CRM_Core_DAO::executeQuery("INSERT INTO civicrm_value_kid_base (entity_id, kid_base) VALUES (%1, %1)", $params);
+    }
+  }
   
   // When various entities are created, generate and store KID number
   if ($op == 'create' and !defined('__BYPASS_HOOK_CIVICRM_POST')) {
