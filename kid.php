@@ -118,7 +118,7 @@ function kid_number_get_info($kid_number) {
        )
     );
     if ($dao->fetch()) {
-      // issue 663: check if contact id exists, if not then check for kid_base contact
+      // issue 663: get contact id from kid base
       return array(
         'entity' => $dao->entity,
         'entity_id' => $dao->entity_id,
