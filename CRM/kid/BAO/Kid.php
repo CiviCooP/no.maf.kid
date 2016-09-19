@@ -17,6 +17,19 @@ class CRM_kid_BAO_Kid extends CRM_kid_DAO_Kid {
     }
     return 0;
   }
+
+  /**
+   * Method to get the KID base for the contact
+   *
+   * @param int $sourceContactId
+   * @return int
+   * @author Erik Hommel (CiviCooP) <erik.hommel@civicoop.org>
+   */
+  public static function getKidBaseContactId($sourceContactId) {
+    $query = 'SELECT kid_base FROM civicrm_value_kid_base WHERE entity_id = %1';
+    $params = array(1 =>array($sourceContactId, 'Integer'));
+    return CRM_Core_DAO::singleValueQuery($query, $params);
+  }
   
 }
 

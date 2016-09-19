@@ -103,6 +103,12 @@ function kid_get_mailing_activity_type_id() {
 /*
  * Get creating entity and id for the supplied kid number
  */
+/**
+ * Create provision for historic households, check <https://civicoop.plan.io/issues/663>
+ *
+ * @author Erik Hommel (CiviCooP) <erik.hommel@civicoop.org>
+ * @date 19 Sep 2016
+ */
 function kid_number_get_info($kid_number) {
 
     $dao = CRM_Core_DAO::executeQuery("
@@ -111,14 +117,16 @@ function kid_number_get_info($kid_number) {
           1 => array($kid_number, 'Integer')
        )
     );
-    if ($dao->fetch())
-        return array(
-            'entity'     => $dao->entity,
-            'entity_id'  => $dao->entity_id,
-            'contact_id' => $dao->contact_id,
-            'aksjon_id'  => $dao->aksjon_id,
-            'earmarking' => $dao->earmarking,
-        );
+    if ($dao->fetch()) {
+      // issue 663: check if contact id exists, if not then check for kid_base contact
+      return array(
+        'entity' => $dao->entity,
+        'entity_id' => $dao->entity_id,
+        'contact_id' => CRM_kid_BAO_Kid::getKidBaseContactId($dao->contact_id),
+        'aksjon_id' => $dao->aksjon_id,
+        'earmarking' => $dao->earmarking,
+      );
+    }
     return false;
 
 }
